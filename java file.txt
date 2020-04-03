@@ -1,0 +1,140 @@
+1)
+int length = 0;
+long temp = 1;
+while (temp <= number) {
+    length++;
+    temp ** = 10;
+}
+return length;
+
+2)
+
+public class Chislo1 {
+ 
+    public static void main(String[] args) {
+        int n = 4;
+        int i;
+        boolean isComposite = false;
+        for (i = 2; i < n; i++) {
+            if (n % i == 0) {
+                isComposite = true;
+                break;
+            }
+        }
+        if (isComposite) {
+            System.out.println("friendly pair ");
+        } else {
+            System.out.println("not friendly pair ");
+        }
+    }
+}
+
+
+3)
+
+
+public class BigPascalTriangle {
+	private int ubound;
+	private BigInteger C[][];
+ 
+	//giving name to a triangle
+	public BigPascalTriangle(int ubound){
+		this.ubound = ubound;
+		C = new BigInteger[ubound+1][ubound+1];
+		for (int n = 0; n <= ubound; n++) {
+			//first and last element in string equals to 1
+			C[n][0] = C[n][n] = BigInteger.ONE;
+			//next i figured out inside of it
+			for (int k = 1; k < n; k++) {
+				C[n][k] = C[n-1][k-1].add(C[n-1][k]);//sample C[n][k] = C[n-1][k-1] + C[n-1][k] for this arithmetic
+			}			
+		}
+	}
+ 
+	//enter the triangle to the console
+	public void show(){
+		for (int n = 0; n <= ubound; n++) {
+			for (int k = 0; k <= n; k++) {
+				System.out.print(C[n][k] + " ");
+			}
+			System.out.println();
+		}
+	}
+ 
+	//method, taking back amount of the pairs from n with k
+	public BigInteger get(int n,int k){
+		return C[n][k];
+	}
+}
+
+
+
+4)
+
+package com.javarush.test.level20.lesson10.bonus01;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Solution {
+    public static void main(String[] args)
+    {
+        int number = 100_000_000;
+        long freeMemory = Runtime.getRuntime().freeMemory();
+        long startTime = System.currentTimeMillis();
+        int[] a = getNumbers(number);
+        long memoryAfterCalculate = Runtime.getRuntime().freeMemory();
+        long delta = memoryAfterCalculate - freeMemory;
+        long stopTime = System.currentTimeMillis();
+        System.out.println("Calculating time: " + (stopTime - startTime));
+        System.out.println("Used JVM memory: " + delta);
+        for (int i : a) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+    }
+    public static int[] getNumbers(int N) {
+        int[] result = null;
+
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 1; i < N; i++) {
+            int degree = getDegree(i);
+
+            int input = i;
+            int sum = 0;
+            int k;
+
+            do {
+                k = input % 10;
+                int a = 1;
+                for(int j = 0; j < degree; j++) {
+                    a *= k;
+                }
+                sum += a;
+            } while ( (input /= 10) > 0);
+
+            if (sum == i) {
+                list.add(i);
+            }
+        }
+        result = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+
+        return result;
+    }
+    public static int getDegree(int i)
+    {
+        int degree = 0;
+
+        do {
+            degree += 1;
+        } while ( (i /= 10) > 0);
+        return degree;
+    }
+}
